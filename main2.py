@@ -4,7 +4,7 @@ from telegram.ext import Application, ApplicationBuilder, CommandHandler, Messag
 import logging
 from p1 import assemble
 
-Token: Final ='8160652125:AAHII43aBBBG5vHIgiHjWYJxCJdLkUoaeec'
+Token: Final ='TOKEN'
 BOT_USERNAME: Final = 'sicassemblerbot'
 
 logging.basicConfig(
