@@ -6,8 +6,8 @@ import threading
 from p1 import assemble
 import os
 
-Token = os.environ.get("TOKEN", "")
-BOT_USERNAME = 'sicassemblerbot'
+Token=os.environ.get("TOKEN", "8160652125:AAHII43aBBBG5vHIgiHjWYJxCJdLkUoaeec")
+BOT_USERNAME= 'sicassemblerbot'
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -73,12 +73,30 @@ if __name__ == '__main__':
     application.add_handler(conv_handler)
     application.add_handler(CommandHandler('start', start))
 
-    # Run the bot polling in a separate thread
-    def run_bot():
-        application.run_polling(allowed_updates=Update.ALL_TYPES)
+    # #runwebserverinthread, so that the polling can run in the main thread
+    # async def run_webserver():
+    #     app = web.Application()
+    #     web.run_app(app, port=8000)
 
+    # import asyncio
+    # asyncio.ensure_future(run_webserver())
+    # loop=asyncio.new_event_loop()
+    # asyncio.set_event_loop(loop)
+    # asyncio.get_event_loop().run_until_complete(application.run_polling(allowed_updates=Update.ALL_TYPES))
+    # application.
     import asyncio
-    asyncio.create_task(run_bot())
 
-    web_app = web.Application()
-    web.run_app(web_app, port=8000)
+    async def main():
+        await application.initialize()
+        await application.updater.initialize()
+        await application.start()
+        await application.updater.start_polling(allowed_updates=Update.ALL_TYPES)
+        app = web.Application()
+        runner = web.AppRunner(app)
+        await runner.setup()
+        site = web.TCPSite(runner, '0.0.0.0', 8000)
+        await site.start()
+        await asyncio.Event().wait()
+
+    asyncio.run(main())
+    
