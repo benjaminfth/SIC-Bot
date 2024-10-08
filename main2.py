@@ -77,8 +77,8 @@ if __name__ == '__main__':
     def run_bot():
         application.run_polling(allowed_updates=Update.ALL_TYPES)
 
-    threading.Thread(target=run_bot).start()
+    import asyncio
+    asyncio.create_task(run_bot())
 
-    # Run the web server in the main thread
-    app = web.Application()
-    web.run_app(app, port=8000)
+    web_app = web.Application()
+    web.run_app(web_app, port=8000)
