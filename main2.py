@@ -6,8 +6,8 @@ import threading
 from p1 import assemble
 import os
 
-Token=os.environ.get("TOKEN", "")
-BOT_USERNAME= 'sicassemblerbot'
+Token = os.environ.get("TOKEN", "")
+BOT_USERNAME = 'sicassemblerbot'
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -73,11 +73,12 @@ if __name__ == '__main__':
     application.add_handler(conv_handler)
     application.add_handler(CommandHandler('start', start))
 
-    #runwebserverinthread, so that the polling can run in the main thread
-    def run_webserver():
-        app = web.Application()
-        web.run_app(app, port=8000)
+    # Run the bot polling in a separate thread
+    def run_bot():
+        application.run_polling(allowed_updates=Update.ALL_TYPES)
 
-    threading.Thread(target=run_webserver).start()
-    
-    application.run_polling(allowed_updates=Update.ALL_TYPES)
+    threading.Thread(target=run_bot).start()
+
+    # Run the web server in the main thread
+    app = web.Application()
+    web.run_app(app, port=8000)
