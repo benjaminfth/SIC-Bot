@@ -2,6 +2,7 @@ from telegram import Update
 from telegram.ext import Application, ApplicationBuilder, CommandHandler, MessageHandler, filters, ConversationHandler, ContextTypes
 import logging
 from aiohttp import web
+import asyncio
 import threading
 from p1 import assemble
 import os
@@ -73,18 +74,6 @@ if __name__ == '__main__':
     application.add_handler(conv_handler)
     application.add_handler(CommandHandler('start', start))
 
-    # #runwebserverinthread, so that the polling can run in the main thread
-    # async def run_webserver():
-    #     app = web.Application()
-    #     web.run_app(app, port=8000)
-
-    # import asyncio
-    # asyncio.ensure_future(run_webserver())
-    # loop=asyncio.new_event_loop()
-    # asyncio.set_event_loop(loop)
-    # asyncio.get_event_loop().run_until_complete(application.run_polling(allowed_updates=Update.ALL_TYPES))
-    # application.
-    import asyncio
 
     async def main():
         await application.initialize()
