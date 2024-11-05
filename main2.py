@@ -7,7 +7,7 @@ import threading
 from p1 import assemble
 import os
 
-Token=os.environ.get("TOKEN")
+Token=os.environ.get("TOKEN", "8160652125:AAHII43aBBBG5vHIgiHjWYJxCJdLkUoaeec")
 BOT_USERNAME= 'sicassemblerbot'
 
 logging.basicConfig(
